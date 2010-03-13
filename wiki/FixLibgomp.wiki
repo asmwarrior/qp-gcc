@@ -1,5 +1,5 @@
 #labels Phase-Design
-# config
+{{{# config
 ../../src/gcc-4.4.3/configure \
     --prefix=/mingw \
     --host=mingw32 \
@@ -34,3 +34,4 @@ libgomp error fix: modify "mingw32/libgomp/libtool" shell, set ".lib" to ".dll.a
 # 2. reload_objs="$objs$old_deplibs "`$ECHO "X$libobjs" | $SP2NL | $Xsed -e '/\.'${libext}$'/d' -e '/\.lib$/d' -e "$lo2o" | $NL2SP`" $reload_conv_objs" ### testsuite:
 # redo make
 # done
+}}}
