@@ -3,7 +3,7 @@
 
 = Introduction =
 
-This page contains install notes of  MinGW GCC 4.5.0 by Leo.
+Hello, I'm Leo, a.k.a a14331990. This page contains install notes of  MinGW GCC 4.5.0 by Leo.
 
 = Download =
  * gcc45-leo.7z
