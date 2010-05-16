@@ -1,0 +1,31 @@
+#summary install notes for MinGW GCC 4.5 build by Leo.
+
+= Introduction =
+
+This page contains install notes of  MinGW GCC 4.5.0 by Leo.
+
+= Download =
+ * gcc45-leo.7z
+ * binutils-leo.7z
+ * wxmsw-leo.7z
+ * cb6233-leo.7z
+please decompress them with *latest beta release* of 7-zip.
+
+= Install =
+*backup* you working MinGW environment first.
+decompress all tarballs to /mingw
+then copy mingw32 dir to i686-pc-mingw32 in the following locations:
+{{{
+cd /mingw
+cp -r mingw32 i686-pc-mingw32
+cd /mingw/lib/gcc
+cp -r mingw32 i686-pc-mingw32
+cd /mingw/libexec/gcc
+cp -r mingw32 i686-pc-mingw32
+}}}
+= Expected User Experience =
+  This build of MinGW GCC 4.5 should compiles wxWidgets smoothly, generates small object files, 100k per one, and 61M in total, and can produce a working wxWidgets monolithic dll of size 9M.
+
+= Troubleshootings and Contacts =
+  * a14331990#hotmail.com
+  * QQ:591799783
