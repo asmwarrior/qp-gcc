@@ -8,7 +8,7 @@ a working MinGW GCC 4.5.0 for wxWidgets.
 = Details =
 
 =*Build gmp, mpfr and other denpedencies*=
-  * gmp
+{{{* gmp
   CFLAGS=-O2 CPPFLAGS=-fexceptions ./configure \
 
   --prefix=/mingw \
@@ -90,7 +90,7 @@ a working MinGW GCC 4.5.0 for wxWidgets.
     cd /mingw/libexec/gcc
     cp -r mingw32 i686-pc-mingw32
   * some libs may not built with gcc 4.5, you can build it with other version of gcc.
-
+}}}
 *Patch Binutils*
   download the tarball leo-current-patches.7z, decompress it using *latest* 7-zip, pick leo-urrent-patches/leo-patches/auto-  import.diff and patch it.
   notes
