@@ -1,4 +1,5 @@
 #summary a reasonably reliable MinGW GCC 4.5.0 build by Leo.
+#labels Featured
 
 = Introduction =
 
