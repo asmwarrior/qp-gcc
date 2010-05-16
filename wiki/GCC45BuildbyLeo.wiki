@@ -65,12 +65,14 @@ a working MinGW GCC 4.5.0 for wxWidgets.
   * *backup* your working mingw environment first,
   * before building, copy mingw32 dir to i686-pc-mingw32 in the following locations:
     (or, add --build=mingw32 in every build configs, you can skip this step)
+{{{
     cd /mingw
     cp -r mingw32 i686-pc-mingw32
     cd /mingw/lib/gcc
     cp -r mingw32 i686-pc-mingw32
     cd /mingw/libexec/gcc
     cp -r mingw32 i686-pc-mingw32
+}}}
   * some libs may not built with gcc 4.5, you can build it with other version of gcc.
 
 = Patch Binutils =
