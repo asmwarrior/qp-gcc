@@ -80,7 +80,7 @@ a working MinGW GCC 4.5.0 for wxWidgets.
 
   cp sched.h /mingw/include/sched.h
   some *notes and warnings*:
-  * backup your working mingw environment first,
+  * *backup* your working mingw environment first,
   * before building, copy mingw32 dir to i686-pc-mingw32 in the following locations:
     (or, add --build=mingw32 in every build configs, you can skip this step)
     cd /mingw
@@ -102,7 +102,7 @@ a working MinGW GCC 4.5.0 for wxWidgets.
   pick and patch all other patches in the dir leo-current-patches and its sundirs.
   notes
   * leo-current-patches/leo-patches/fix-bloat.diff is just a removal of nathan's code
-at r147799 | nathan | 2009-05-22 22:57:15 +0800 (Fri, 22 May 2009) | 16 lines
+at 2009-05-22.
 see disscussions here
 http://forums.codeblocks.org/index.php/topic,12183.30.html
 and here
@@ -112,22 +112,40 @@ for the reason of removal, say *SORRY* to nathan.
 
 *Configure GCC*
   ../configure \
+
   --prefix=/mingw \
+
   --enable-languages=c,c++,fortran,objc,obj-c++ \
+
   --enable-shared \
+
   --disable-libgcj \
+
   --enable-libgomp \
+
   --disable-win32-registry \
+
   --enable-libstdcxx-debug \
+
   --enable-version-specific-runtime-libs \
+
   --disable-werror \
+
   --enable-threads \
+
   --disable-symvers \
+
   --enable-cxx-flags='-fno-function-sections -fno-data-sections' \
+
   --enable-fully-dynamic-string \
+
   --disable-nls \
+
   --with-system-zlib \
+
   --disable-bootstrap \
+
   --disable-lto
+
 *Build and Install*
   as normal.
