@@ -65,7 +65,7 @@ a working MinGW GCC 4.5.0 for wxWidgets.
   some *notes and warnings*:
   * *backup* your working mingw environment first,
   * before building, copy mingw32 dir to i686-pc-mingw32 in the following locations:
-    (or, add --build=mingw32 in every build configs, you can skip this step)
+    (or, add --build=mingw32 in every build configs of above dependencies, you can skip this step)
 {{{
     cd /mingw
     cp -r mingw32 i686-pc-mingw32
