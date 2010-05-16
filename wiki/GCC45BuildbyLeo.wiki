@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary a reasonably reliable MinGW GCC 4.5.0 build by Leo.
 
 = Introduction =
 
