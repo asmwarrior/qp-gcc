@@ -75,7 +75,7 @@ a working MinGW GCC 4.5.0 for wxWidgets.
   http://sourceware.org/ml/binutils/2009-02/msg00341.html
   * it enables auto-import by default in ld, this is default behavior in Cygwin, but not yet in MinGW.
 
-*Patch GCC*
+= Patch GCC =
   pick and patch all other patches in the dir leo-current-patches and its sundirs.
   notes
   * leo-current-patches/leo-patches/fix-bloat.diff is just a removal of nathan's code
@@ -87,42 +87,26 @@ http://gcc.gnu.org/bugzilla/show_bug.cgi?id=43601
 for the reason of removal, say *SORRY* to nathan.
   * other patches are borrowed from officail MinGW build, TDM-GCC and Mr.loaden, Thanks them all.
 
-*Configure GCC*
+= Configure GCC =
+{{{
   ../configure \
-
   --prefix=/mingw \
-
   --enable-languages=c,c++,fortran,objc,obj-c++ \
-
   --enable-shared \
-
   --disable-libgcj \
-
   --enable-libgomp \
-
   --disable-win32-registry \
-
   --enable-libstdcxx-debug \
-
   --enable-version-specific-runtime-libs \
-
   --disable-werror \
-
   --enable-threads \
-
   --disable-symvers \
-
   --enable-cxx-flags='-fno-function-sections -fno-data-sections' \
-
   --enable-fully-dynamic-string \
-
   --disable-nls \
-
   --with-system-zlib \
-
   --disable-bootstrap \
-
   --disable-lto
 
-*Build and Install*
+= Build and Install =
   as normal.
