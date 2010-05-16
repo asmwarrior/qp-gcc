@@ -1,4 +1,4 @@
-#summary install notes for MinGW GCC 4.5 build by Leo.
+#summary A reasonably reliable MinGW GCC 4.5.0 build by Leo: Install Notes.
 #labels Featured
 
 = Introduction =
