@@ -1,0 +1,14 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Hello, I'm Leo, a.k.a a14331990. This page contains detailed information about building 
+a working MinGW GCC 4.5.0 for wxWidgets and CodeBlocks and other projects.
+
+= Details =
+
+**
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
