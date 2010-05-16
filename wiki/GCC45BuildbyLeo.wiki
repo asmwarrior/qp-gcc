@@ -7,7 +7,7 @@ a working MinGW GCC 4.5.0 for wxWidgets.
 
 = Details =
 
-*Build gmp, mpfr and other denpedencies*
+=*Build gmp, mpfr and other denpedencies*=
   * gmp
   CFLAGS=-O2 CPPFLAGS=-fexceptions ./configure \
 
