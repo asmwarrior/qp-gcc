@@ -11,75 +11,50 @@ a working MinGW GCC 4.5.0 for wxWidgets.
 {{{
   * gmp
   CFLAGS=-O2 CPPFLAGS=-fexceptions ./configure \
-
   --prefix=/mingw \
-
   --disable-static \
-
   --enable-shared \
-
   --enable-cxx
+
   * mpfr
   CFLAGS=-O2 ./configure \
-
   --prefix=/mingw \
-
   --disable-static \
-
   --enable-shared
+
   * mpc
   CFLAGS=-O2 ./configure \
-
   --prefix=/mingw \
-
   --disable-static \
-
   --enable-shared
+
   * ppl
-
   CFLAGS=-O2 LDFLAGS="-no-undefined -Wl,--exclude-libs,libgcc_eh.a" ./configure \
-
   --prefix=/mingw \
-
   --disable-watchdog \
-
   --disable-static \
-
   --enable-shared
+
   * cloog
-
   CFLAGS=-O2 LDFLAGS="-no-undefined" ./configure \
-
   --prefix=/mingw \
-
   --disable-static \
-
   --enable-shared \
-
   --with-ppl
+
   * pthreads
-
   make clean GC-static
-
   cp libpthreadGC2.a /mingw/lib/libpthreadGC2-static.a
-
   make clean GC-inlined
-
   cp libpthreadGC2.a /mingw/lib/libpthread.a
-
   cp pthreadGC2.dll /mingw/bin/pthreadGC2.dll
-
   make clean GCE-inlined
-
   cp libpthreadGCE2.a /mingw/lib/libpthreadGCE2.a
-
   cp pthreadGCE2.dll /mingw/bin/pthreadGCE2.dll
-
   cp pthread.h /mingw/include/pthread.h
-
   cp semaphore.h /mingw/include/semaphore.h
-
   cp sched.h /mingw/include/sched.h
+
   some *notes and warnings*:
   * *backup* your working mingw environment first,
   * before building, copy mingw32 dir to i686-pc-mingw32 in the following locations:
@@ -93,7 +68,7 @@ a working MinGW GCC 4.5.0 for wxWidgets.
   * some libs may not built with gcc 4.5, you can build it with other version of gcc.
 }}}
 
-*Patch Binutils*
+= Patch Binutils =
   download the tarball leo-current-patches.7z, decompress it using *latest* 7-zip, pick leo-urrent-patches/leo-patches/auto-  import.diff and patch it.
   notes
   * this comes from this post by Dave Korn and is slightly modified by me
