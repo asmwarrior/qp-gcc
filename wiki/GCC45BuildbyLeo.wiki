@@ -69,7 +69,7 @@ a working MinGW GCC 4.5.0 for wxWidgets.
 }}}
 
 = Patch Binutils =
-  download the tarball leo-current-patches.7z, decompress it using *latest* 7-zip, pick leo-urrent-patches/leo-patches/auto-  import.diff and patch it.
+  download the tarball leo-current-patches.7z, decompress it using *latest beta release* 7-zip, pick leo-urrent-patches/leo-patches/auto-  import.diff and patch it.
   notes
   * this comes from this post by Dave Korn and is slightly modified by me
   http://sourceware.org/ml/binutils/2009-02/msg00341.html
