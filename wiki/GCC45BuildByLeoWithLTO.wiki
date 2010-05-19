@@ -1,0 +1,22 @@
+#summary MinGW GCC 4.5.0 build by Leo with LTO enabled
+
+= Introduction =
+
+Link Time Optimization (LTO) is a new optimization strategy in GCC 4.5, it works great. See
+GCC wiki page [1] for details
+
+   LTO on non-ELF platform is implemented/pathed by Dave Korn [2], his patch was already in trunk, but not in GCC 4.5.0, he kindly provided a patch for GCC 4.5.0 [2].
+
+[1] http://gcc.gnu.org/wiki/LinkTimeOptimization
+
+[2] GCC Bugzilla Bug 42776 LTO doesn't work on non-ELF platforms.
+
+http://gcc.gnu.org/bugzilla/show_bug.cgi?id=42776 
+
+
+= Details =
+
+= Build Notes =
+ * Only two patches, coff-section-directive-alignment.diff (not necessary if binutils 2.20.1) and gcc_lto-coff-respin-4.diff.
+ * Apply patches as normal, but *don't forget to run autoconf 2.64 at srcdir and srcdir/gcc *, * autoconf before 2.63 is not working, for autoconf 2.65 or later, simple modifications on srcdir/configure.ac and srcdir/config/override.m4 are needed. *
+ * replace --disable-lto with --enable-lto in gcc configure step.
