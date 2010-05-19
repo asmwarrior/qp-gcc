@@ -1,4 +1,5 @@
 #summary MinGW GCC 4.5.0 build by Leo with LTO enabled
+#labels Featured
 
 = Introduction =
 
