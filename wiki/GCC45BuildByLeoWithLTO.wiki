@@ -5,7 +5,7 @@
 Link Time Optimization (LTO) is a new optimization strategy in GCC 4.5, it works great. See
 GCC wiki page [1] for details
 
-   LTO on non-ELF platform is implemented/pathed by Dave Korn [2], his patch was already in trunk, but not in GCC 4.5.0, he kindly provided a patch for GCC 4.5.0 [2].
+LTO on non-ELF platform is implemented/pathed by Dave Korn [2], his patch was already in trunk, but not in GCC 4.5.0, he kindly provided a patch for GCC 4.5.0 [2].
 
 [1] http://gcc.gnu.org/wiki/LinkTimeOptimization
 
