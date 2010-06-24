@@ -38,3 +38,7 @@ source D:\MinGW\bin\wx.gdb
 You can see some posts in Codeblocks forum:
 
 http://forums.codeblocks.org/index.php/topic,12747.0.html
+
+Thanks Loaden to help me to cross-build the gdb.
+
+Asmwarrior
