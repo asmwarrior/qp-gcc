@@ -1,0 +1,40 @@
+This wiki page introduce the MinGW GDB build with python support, also include wx and stl pretty printer.
+
+= Introduction =
+
+GDB has incorporated the python script called pretty printer to show it's variable. You can see a video
+ 
+http://people.redhat.com/ebachalo/video/archer-pretty-printing-no-audio.swf
+
+or the image screen shot in Codeblocks
+
+[http://i683.photobucket.com/albums/vv194/ollydbg_cb/one_variable.png]
+
+[http://i683.photobucket.com/albums/vv194/ollydbg_cb/two_variable-1.png]
+
+= How to use =
+
+You can download the package 
+http://qp-gcc.googlecode.com/files/gdb7.1.50.20100623cvs.7z
+And extract to your *MinGW/bin* folder
+Note, the package already contains all the python binaries, so you don't need to install python any more.
+
+
+= Load the python sciprt when Debugger started in Codeblocks ==
+If you use the latest Codeblocks Codecompletion_branch, you can setting the debug like below
+[http://i683.photobucket.com/albums/vv194/ollydbg_cb/debugger_setting1.png]
+{{{
+source $(TARGET_COMPILER_DIR)bin\stl.gdb
+source $(TARGET_COMPILER_DIR)bin\wx.gdb
+}}}
+This will run the the two gdb file when gdb started. 
+If you use official Codeblocks or nightlies, you need to specify the path of your MinGW, so it is some thing like:
+{{{
+source D:\MinGW\bin\stl.gdb
+source D:\MinGW\bin\wx.gdb
+}}}
+
+= Then, enjoying debugging =
+You can see some posts in Codeblocks forum:
+
+http://forums.codeblocks.org/index.php/topic,12747.0.html
