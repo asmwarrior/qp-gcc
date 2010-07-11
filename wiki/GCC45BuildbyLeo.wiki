@@ -84,7 +84,7 @@ a working MinGW GCC 4.5.0 for wxWidgets.
   * it enables auto-import by default in ld, this is default behavior in Cygwin, but not yet in MinGW.
 
 = Patch GCC =
-  pick and patch all other patches in the dir leo-current-patches and its sundirs.
+  pick and patch all other patches in the dir leo-current-patches and its sub-dirs.
   notes
   * leo-current-patches/leo-patches/fix-bloat.diff is just a removal of nathan's code
 at 2009-05-22.
@@ -93,7 +93,7 @@ http://forums.codeblocks.org/index.php/topic,12183.30.html
 and here
 http://gcc.gnu.org/bugzilla/show_bug.cgi?id=43601
 for the reason of removal, say *SORRY* to nathan.
-  * other patches are borrowed from officail MinGW build, TDM-GCC and Mr.loaden, Thanks them all.
+  * other patches are borrowed from official MinGW build, TDM-GCC and Mr.loaden, Thanks them all.
 
 = Configure GCC =
 {{{
