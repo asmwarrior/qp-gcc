@@ -15,7 +15,7 @@ or the image screen shot in Codeblocks
 = How to use =
 
 You can download the package 
-http://qp-gcc.googlecode.com/files/gdb7.1.50.20100623cvs.7z
+http://qp-gcc.googlecode.com/files/gdb-7.2.7z  (updated 2010-09-05）
 And extract to your *MinGW/bin* folder
 Note, the package already contains all the python binaries, so you don't need to install python any more.
 
@@ -37,6 +37,7 @@ source D:\MinGW\bin\wx.gdb
 = Then, enjoying debugging =
 You can see some posts in Codeblocks forum:
 
+http://forums.codeblocks.org/index.php/topic,11301.msg77000.html#msg77000
 http://forums.codeblocks.org/index.php/topic,12747.0.html
 
 Thanks Loaden to help me to cross-build the gdb.
