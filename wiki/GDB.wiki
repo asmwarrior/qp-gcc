@@ -21,7 +21,7 @@ Note, the package already contains all the python binaries, so you don't need to
 
 
 = Load the python script when Debugger started in Codeblocks ==
-If you use the latest Codeblocks Codecompletion_branch, you can setting the debug like below
+If you use the latest Codeblocks nightly build version(note, the official 10.05 version is not supported the feature) you can setting the debug like below
 [http://i683.photobucket.com/albums/vv194/ollydbg_cb/debugger_setting1.png]
 {{{
 source $(TARGET_COMPILER_DIR)bin\stl.gdb
