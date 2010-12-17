@@ -20,7 +20,7 @@ And extract to your *MinGW/bin* folder
 Note, the package already contains all the python binaries, so you don't need to install python any more.
 
 
-= Load the python sciprt when Debugger started in Codeblocks ==
+= Load the python script when Debugger started in Codeblocks ==
 If you use the latest Codeblocks Codecompletion_branch, you can setting the debug like below
 [http://i683.photobucket.com/albums/vv194/ollydbg_cb/debugger_setting1.png]
 {{{
@@ -43,5 +43,20 @@ http://forums.codeblocks.org/index.php/topic,11301.msg77000.html#msg77000
 http://forums.codeblocks.org/index.php/topic,12747.0.html
 
 Thanks Loaden to help me to cross-build the gdb.
+
+= Update Your GDB =
+2010-12-17, as I have released a new GDB version here:
+[http://forums.codeblocks.org/index.php/topic,11301.msg77000.html#msg77000 unoffcial MinGW GDB gdb with python released]
+
+Now, the new version of GDB was linked to the python 2.7.1 library. So here is the main steps to use the new GDB with python pretty printer support.
+1, install python 2.7.1, you can download it from: [http://www.python.org/download/ Download Python]
+
+2, download the new GDB package from [http://qp-gcc.googlecode.com/files/gdb-7.2.50.20101213.7z gdb-7.2.50.20101213.7z] and extract to your "MinGW_Path/bin"
+
+3, download the python script package [http://qp-gcc.googlecode.com/files/stdcxx_and_wx_pythonscript.7z stdcxx_and_wx_pythonscript.7z], and extract to your "MinGW_Path/bin"
+
+4, configure Your Codeblocks, let the gdb to load these python pretty support. see [GDB#Load_the_python_script_when_Debugger_started_in_Codeblocks] section
+
+
 
 Asmwarrior
