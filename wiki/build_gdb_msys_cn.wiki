@@ -36,8 +36,10 @@ python的路径也是类似的映射。 注意，在Windows系统的PATH路径�
 ./configure -prefix=/E/test/expat/install --enable-static
 }}}
 上面的这句命令的意思，就是生成静态版本的expat库。然后在命令行里面输入：
+{{{
 make
 make install
+}}}
 一切正常的话，编译好的expat库，就被安装到 “/E/test/expat/install”了，大家也可以根据自己的需要放置expat库的路径。
 
 ==设置python的头文件和路径==
