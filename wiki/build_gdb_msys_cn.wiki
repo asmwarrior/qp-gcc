@@ -59,7 +59,7 @@ E:\test\unix_gdb\build
 
 完了之后，就可以运行命令：
 {{{make
-}}
+}}}
 和
 {{{
 make install
