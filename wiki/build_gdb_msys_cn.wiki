@@ -10,7 +10,9 @@
 
 ==使用MSYSgit下载最新gdb代码== 
 我使用的是一个绿色版本的git系统，具体的下载链接是 [http://msysgit.googlecode.com/files/PortableGit-1.7.3.1-preview20101002.7z PortableGit-1.7.3.1-preview20101002.7z] 解压后。重要的一个步骤，先修改里面的一个配置文件，位于：“\etc\gitconfig” 这个文件里面，把 autocrlf的默认值true，改成“autocrlf = false”。否则下载下来的gdb源代码无法编译通过，会出现莫名其妙的编译错误，这也是我和Pcx折腾了好几天才发现的重要经验！！接下来，运行 git-bash.bat 文件。然后就可以去下载 git 版本管理的 gdb了，具体的地址可以看gdb的页面：[http://www.gnu.org/software/gdb/current/ Current GDB] ,里面使用的是这个地址：
-{{{git clone git://sourceware.org/git/gdb.git}}}
+{{{
+git clone git://sourceware.org/git/gdb.git
+}}}
 
 ==python2.7的安装==
 这个步骤比较简单，直接去python网站下载安装了就可以了，目前我使用的是python2.7.1，你去下载安装就OK了。
