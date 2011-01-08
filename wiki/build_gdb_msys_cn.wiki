@@ -92,6 +92,11 @@ http://code.google.com/p/qp-gcc/wiki/GDB
 非常感谢Loaden等人提供的gdb的交叉编译方法，以及Loaden的编译器。
 非常感谢Pcx，我们一起讨论和研究了gdb的编译问题。
 
+==参考链接==
+ # http://dev.zhourenjian.com/blog/2009/03/11/compiling-gdb-debugger-in-windows.html
+ # http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GDB/GDB-7.2/gdb-7.2-1-mingw32.RELEASE_NOTES.txt/download
+
+==本文作者自我介绍==
 Asmwarrior
 
 另外，“ollydbg”是我在Codeblocks英文论坛的ID，我对开源的Codeblocks的IDE很感兴趣。
