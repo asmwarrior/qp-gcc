@@ -6,7 +6,7 @@
 I recommend using latest version of [http://www.7-zip.org/ 7-Zip].
 
 ==GCC compiler suite==
-I use Loaden's MinGW GCC suite[http://code.google.com/p/qp-gcc/downloads/detail?name=mingw-static-4.4.5-all.7z&can=2&q= Loaden的GCC]. Note you should have iconv library in your compiler suite, other wise, gdb need iconv to show Unicode characters correctly. Also, Pcx's MinGW GCC suite [http://pcxprj.googlecode.com/files/MinGW_gcc4.5.4.20110428_static_win32.7z MinGW_gcc4.5.4.20110428_static_win32] is also a good alternative.
+I use Loaden's MinGW GCC suite[http://code.google.com/p/qp-gcc/downloads/detail?name=mingw-static-4.4.5-all.7z&can=2&q= Loaden'GCC]. Note you should have iconv library in your compiler suite, other wise, gdb need iconv to show Unicode characters correctly. Also, Pcx's MinGW GCC suite [http://pcxprj.googlecode.com/files/MinGW_gcc4.5.4.20110428_static_win32.7z MinGW_gcc4.5.4.20110428_static_win32] is also a good alternative.
 
 ==use MSYSgit to download the latest gdb source code==
 gdb's source code is based on the cvs, but there is a readable git. I use a portable version of [http://msysgit.googlecode.com/files/PortableGit-1.7.4-preview20110204.7z PortableGit-1.7.4] client to check out the source code. Note that you should firstly change the edit the file "\etc\gitconfig", the default value of the "autocrlf=true", so, change this to "autocrlf = false".
@@ -28,72 +28,60 @@ F:/cb/python271 /python
 }}}
 This will mount the mingw and python path correctly.
 
-==build expat library==
-如果没有expat的库，你编译出来的gdb也可以正常工作，但是却无法调试dll文件，所以还是有必要去下载expat的，下载的地方有好几个，例如：
-[http://sourceforge.net/projects/mingw/files/MinGW/expat/expat-2.0.1-1/expat-2.0.1-1-mingw32-src.tar.gz/download expat-2.0.1-1-mingw32-src.tar.gz] 就可以了，下载之后解压缩。
+==expat library==
+Expat library is used to support gdb to debug dll files. Download 
+[http://sourceforge.net/projects/mingw/files/MinGW/expat/expat-2.0.1-1/expat-2.0.1-1-mingw32-src.tar.gz/download expat-2.0.1-1-mingw32-src.tar.gz] and extract it.
 
-=编译=
-==编译expat库==
-首先编译expat库，这个比较简单，先打开MSYS界面（注意，不要用msysgit的那个，要用[WikiSyntax#MSYS_shell]），cb命令转移当前的目录到expat所在的目录，输入命令：
+=Build=
+==build expat库==
+Run the MSYS, change directory to where your extract expat, and run the command
 {{{
 ./configure -prefix=/E/test/expat/install --enable-static
-}}}
-上面的这句命令的意思，就是生成静态版本的expat库。然后在命令行里面依次输入：
-{{{
 make
 make install
 }}}
-一切正常的话，编译好的expat库，就被安装到 “/E/test/expat/install”了，大家也可以根据自己的需要放置expat库的路径。
+Now, you have static expat under "/E/test/expat/install".
 
-==设置python的头文件和路径==
-由于gdb源代码里面检测python的机制默认是针对linux下用的，所以在windows会检测失败，以至于在编译的时候gdb会提示死活都找不到python。解决方法如下：
-下面是我自己琢磨出来的修改步骤，能保证gdb在编译过程的时候正确的找到python，并且编译成功！
- # 假设我的python的安装目录是F:\cb\python271，头文件所在的目录是：F:\cb\python271\include，于是，你在这个目录里面，新建一个名字叫做 python2.7 的目录，也就是说，创建一个 “F:\cb\python271\include\python2.7”，然后你把原来“F:\cb\python271\include”里面的内容，都复制一份，放到这个python2.7的目录里面。 （因为gdb默认会去检索这个目录的头文件，也许linux下的目录结构是这样的吧。。）
- # 修改库文件，在路径F:\cb\python271\libs\下面 ，复制一份libpython27.a ,并且改名字为：libpython2.7.a （gdb会查找libpython2.7.a这样的库名字，而不是前者）
+==Configure python header path and libraries==
 
-==编译gdb==
-在MSYS命令行下面，进入你下载的git版本管理的gdb源代码目录。例如，在我的电脑上面，我的git的gdb源代码位于 "E:\test\unix_gdb\gdb" ，那么我就创建一个名字叫做 build 的文件夹，位于：
-E:\test\unix_gdb\build
+There is a trick to use python library.
 
-这样，你就可以在MSYS里面，进入这个build目录。然后运行configure命令：
+ # Suppose you python is installed under "F:\cb\python271"，The header files were located under "F:\cb\python271\include", You need to create a new folder"F:\cb\python271\include\python2.7", and copy all the files from "F:\cb\python271\include"
+ # Change the library file name, make a copy of "F:\cb\python271\libslibpython27.a" and rename to "libpython2.7.a"
+
+==build gdb==
+Under MSYS shell, go to your gdb source, On my computer, it is "E:\test\unix_gdb\gdb", create an empty folder "E:\test\unix_gdb\build".
+Then, run the configure command below:
 {{{
+cd build
 ../gdb/configure --prefix=/E/test/install --build=mingw32 --host=mingw32 --target=mingw32 \
    CFLAGS="-s -L/python/libs -I/python/include -I/E/test/expat/install/include -static -L/E/test/expat/install/lib" \
    --with-python \
    --with-expat
 }}}
 
-完了之后，就可以依次运行命令：
+Then, just make and make install, it will take several minutes to build the gdb.
 {{{
 make
-}}}
-和
-{{{
 make install
 }}}
 
-最后，编译的过程大概需要20多分钟（根据你的电脑速度好坏）。
+That's all, the final gdb will be installed in "/E/test/install"
 
-完成之后的gdb应该就会出现在：上面定义的 "--prefix=/E/test/install" 目录里面。
 
-这样，你就成功了！！！
-
-=其他=
-如果要更新git管理的gdb源代码，你需要在你的MSYSGIT 的界面里面，转移到gdb的目录，然后运行的命令是
+=Other things to need to know=
+To update your gdb source code, you need to open MSYSgit, and  run the command under gdb source folder.
 {{{ git pull }}}
 
-关于如何使用wxwidget提供的python pretty printer的gdb调试脚本，或者gcc stl c++标准库的调试脚本，请查看这个wiki网页
-http://code.google.com/p/qp-gcc/wiki/GDB
+For those who want to learn python pretty printer for wxWidgets or std c++ standard library, see this wiki page: http://code.google.com/p/qp-gcc/wiki/GDB
 
-==感谢==
-非常感谢Loaden等人提供的gdb的交叉编译方法，以及Loaden的编译器。
-非常感谢Pcx，我们一起讨论和研究了gdb的编译问题。
+==Acknowledgement==
+Many thanks to Loaden to suppy a working MinGW GCC and give us a cross gdb instruction.
+Many thanks to Pcx with who I solved many problems when building gdb under MSYS.
 
-==参考链接==
+==Reference==
  # http://dev.zhourenjian.com/blog/2009/03/11/compiling-gdb-debugger-in-windows.html
  # http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GDB/GDB-7.2/gdb-7.2-1-mingw32.RELEASE_NOTES.txt/download
 
-==本文作者自我介绍==
-Asmwarrior
-
-另外，“ollydbg”是我在Codeblocks英文论坛的ID，我对开源的Codeblocks的IDE很感兴趣。
+==Me==
+I'am Asmwarrior. You can find me [http://forums.codeblocks.org/index.php?action=profile;u=9403 ollydbg] under Codeblocks' forum.
