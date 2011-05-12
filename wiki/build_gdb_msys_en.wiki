@@ -9,7 +9,7 @@ I recommend using latest version of [http://www.7-zip.org/ 7-Zip].
 I use Loaden's MinGW GCC suite[http://code.google.com/p/qp-gcc/downloads/detail?name=mingw-static-4.4.5-all.7z&can=2&q= Loaden'GCC]. Note you should have iconv library in your compiler suite, other wise, gdb need iconv to show Unicode characters correctly. Also, Pcx's MinGW GCC suite [http://pcxprj.googlecode.com/files/MinGW_gcc4.5.4.20110428_static_win32.7z MinGW_gcc4.5.4.20110428_static_win32] is also a good alternative.
 
 ==use MSYSgit to download the latest gdb source code==
-gdb's source code is based on the cvs, but there is a readable git. I use a portable version of [http://msysgit.googlecode.com/files/PortableGit-1.7.4-preview20110204.7z PortableGit-1.7.4] client to check out the source code. Note that you should firstly change the edit the file "\etc\gitconfig", the default value of the "autocrlf=true", so, change this to "autocrlf = false".
+gdb's source code is based on the cvs, but there is a readable git. I use a portable version of [http://msysgit.googlecode.com/files/PortableGit-1.7.4-preview20110204.7z PortableGit-1.7.4] client to check out the source code. Note that you should firstly edit the file "\etc\gitconfig", change the text "autocrlf=true" to "autocrlf = false".
  
 Next, run the command git-bash.bat, then you can go to download the gdb source code using this command: 
 
@@ -33,7 +33,7 @@ Expat library is used to support gdb to debug dll files. Download
 [http://sourceforge.net/projects/mingw/files/MinGW/expat/expat-2.0.1-1/expat-2.0.1-1-mingw32-src.tar.gz/download expat-2.0.1-1-mingw32-src.tar.gz] and extract it.
 
 =Build=
-==build expat库==
+==build expat library==
 Run the MSYS, change directory to where your extract expat, and run the command
 {{{
 ./configure -prefix=/E/test/expat/install --enable-static
