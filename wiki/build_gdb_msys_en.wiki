@@ -1,15 +1,15 @@
 #labels Featured
-#This article describes build gdb under MSYS + MinGW environment from the latest version of gdb source(git update)
+This article describes steps to build gdb under MSYS + MinGW environment from the latest version of gdb source(gdb git repository)
 
-= prerequisite  =
+= Prerequisite  =
 ==unzip tools==
-I recommend using latest version of [http://www.7-zip.org/ 7-Zip].
+I recommend using latest version of [http://www.7-zip.org/ 7-Zip] to extract files.
 
 ==GCC compiler suite==
-I use Loaden's MinGW GCC suite[http://code.google.com/p/qp-gcc/downloads/detail?name=mingw-static-4.4.5-all.7z&can=2&q= Loaden'GCC]. Note you should have iconv library in your compiler suite, other wise, gdb need iconv to show Unicode characters correctly. Also, Pcx's MinGW GCC suite [http://pcxprj.googlecode.com/files/MinGW_gcc4.5.4.20110428_static_win32.7z MinGW_gcc4.5.4.20110428_static_win32] is also a good alternative.
+I use Loaden's MinGW GCC suite[http://code.google.com/p/qp-gcc/downloads/detail?name=mingw-static-4.4.5-all.7z&can=2&q= Loaden'GCC]. Note you should have iconv library in your compiler suite,since gdb need iconv library to show Unicode characters correctly. Also, PCX's MinGW GCC suite [http://pcxprj.googlecode.com/files/MinGW_gcc4.5.4.20110428_static_win32.7z MinGW_gcc4.5.4.20110428_static_win32] is also a good alternative. (PCX's GCC suite has pre-build iconv and expat libraries, so you can skip the building expat library step) 
 
-==use MSYSgit to download the latest gdb source code==
-gdb's source code is based on the cvs, but there is a readable git. I use a portable version of [http://msysgit.googlecode.com/files/PortableGit-1.7.4-preview20110204.7z PortableGit-1.7.4] client to check out the source code. Note that you should firstly edit the file "\etc\gitconfig", change the text "autocrlf=true" to "autocrlf = false".
+==use MSYSGit to download the latest gdb source code==
+gdb's source code is based on the cvs, but there is a readable git repository. I use a portable version of [http://msysgit.googlecode.com/files/PortableGit-1.7.4-preview20110204.7z PortableGit-1.7.4] client to download/update its source code. Note that you should firstly edit the file "\etc\gitconfig", change the text "autocrlf=true" to "autocrlf = false". (This will use linux EOL, the Windows CRLF format will cause problems)
  
 Next, run the command git-bash.bat, then you can go to download the gdb source code using this command: 
 
@@ -20,15 +20,16 @@ git clone git://sourceware.org/git/gdb.git
 == install python2.7==
 This is quite simple step, just go to python official site, and download [http://www.python.org/ftp/python/2.7.1/python-2.7.1.msi Python 2.7.1 Windows Installer] and install it.
 
-==Download MSYS shell==
-The MSYS shell package can be downloaded from [http://sourceforge.net/projects/mingw-w64/files/External%20binary%20packages%20%28Win64%20hosted%29/MSYS%20%2832-bit%29/MSYS-20110309.zip/download MSYS-20110309.zip], unzip it and configure the file "\msys\etc\fstab", if the file does not exist, you need to create one yourself, it is just a text file without file extension, then edit it like below:
+==Download official MSYS shell==
+The MSYS shell package can be downloaded from [http://sourceforge.net/projects/mingw-w64/files/External%20binary%20packages%20%28Win64%20hosted%29/MSYS%20%2832-bit%29/MSYS-20110309.zip/download MSYS-20110309.zip]. This is a MinGW64 site hosted MSYS packages, unzip it and configure the file "\msys\etc\fstab", if the file does not exist, you need to create one yourself, it is just a text file without file extension, then edit it like below:
 {{{
 D:/code/MinGWLoaden /mingw
 F:/cb/python271 /python
 }}}
 This will mount the mingw and python path correctly.
 
-==expat library==
+==Download expat library==
+If your MinGW suite already have expat library, just skip this step and the "build expat library" step.
 Expat library is used to support gdb to debug dll files. Download 
 [http://sourceforge.net/projects/mingw/files/MinGW/expat/expat-2.0.1-1/expat-2.0.1-1-mingw32-src.tar.gz/download expat-2.0.1-1-mingw32-src.tar.gz] and extract it.
 
@@ -42,7 +43,7 @@ make install
 }}}
 Now, you have static expat under "/E/test/expat/install".
 
-==Configure python header path and libraries==
+==Configure python header file path and libraries==
 
 There is a trick to use python library.
 
@@ -60,23 +61,25 @@ cd build
    --with-expat
 }}}
 
-Then, just make and make install, it will take several minutes to build the gdb.
+Then, run the bash command below, it will take several minutes to build the gdb.
 {{{
 make
 make install
 }}}
 
-That's all, the final gdb will be installed in "/E/test/install"
+That's all, the final gdb executable files and related files will be installed in "/E/test/install"
 
 
-=Other things to need to know=
-To update your gdb source code, you need to open MSYSgit, and  run the command under gdb source folder.
-{{{ git pull }}}
+=Other things you need to know=
+To update your gdb source code, you need to open MSYSGit, and  run the command under gdb source folder.
+{{{ 
+git pull 
+}}}
 
-For those who want to learn python pretty printer for wxWidgets or std c++ standard library, see this wiki page: http://code.google.com/p/qp-gcc/wiki/GDB
+For those who want to learn python pretty printer for wxWidgets or std c++ standard library, see another wiki page: http://code.google.com/p/qp-gcc/wiki/GDB
 
 ==Acknowledgement==
-Many thanks to Loaden to suppy a working MinGW GCC and give us a cross gdb instruction.
+Many thanks to Loaden to supply a working MinGW GCC and give us a cross gdb instruction.
 Many thanks to Pcx with who I solved many problems when building gdb under MSYS.
 
 ==Reference==
