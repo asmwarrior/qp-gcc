@@ -8,7 +8,7 @@ I recommend using latest version of [http://www.7-zip.org/ 7-Zip] to extract fil
 ==GCC compiler suite==
 You can have many choices to choose a MinGW GCC suite, I use Loaden's MinGW GCC suite[http://code.google.com/p/qp-gcc/downloads/detail?name=mingw-static-4.4.5-all.7z&can=2&q= Loaden'GCC 4.4.5]. PCX's MinGW GCC suite [http://pcxprj.googlecode.com/files/MinGW_gcc4.5.4.20110428_static_win32.7z PCX's GCC 4.5.4] is also a good alternative.  
 
-Note: you should have iconv library in your compiler suite, since gdb need iconv library to show Unicode characters correctly. (PCX's GCC suite has both pre-build iconv and expat libraries, Loaden's suite did not contains expat library.) Also, please *remove* the file "make.exe" in the MinGW/bin folder, in-fact, this file will cause conflict with MSYS's GNU "make.exe".
+Note: you should have iconv library in your compiler suite, since gdb need iconv library to show Unicode characters correctly. (PCX's GCC suite has both precompiled iconv and expat libraries, Loaden's suite did not contains expat library.) Also, please *remove* the file "make.exe" in the MinGW/bin folder, in-fact, this file will cause conflict with MSYS's GNU "make.exe".
 
 ==use MSYSGit to download the latest gdb source code==
 gdb's source code is based on the cvs, but there is a readable git repository. I use a portable version of [http://msysgit.googlecode.com/files/PortableGit-1.7.4-preview20110204.7z PortableGit-1.7.4] client to download/update its source code. Note that you should firstly edit the file "\etc\gitconfig", change the text "autocrlf=true" to "autocrlf = false". (This will force to use linux EOL, the Windows CRLF format will cause problems.)
