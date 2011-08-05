@@ -1,5 +1,7 @@
 #labels Featured
-#本文介绍在 windows系统下，如何用 MSYS环境+MinGW编译器，编译最新版本的 gdb (git更新）
+本文介绍在 windows系统下，如何用 MSYS环境+MinGW编译器，编译最新版本的 gdb。
+
+注意：本教程的英文版本见：[http://code.google.com/p/qp-gcc/wiki/build_gdb_msys_en build_gdb_msys_en]，如果你不介意阅读英文，建议你先阅读英文版本，因为英文版本具有最新的更新。
 
 = 准备条件 =
 ==解压缩工具==
