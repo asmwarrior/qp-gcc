@@ -1,5 +1,5 @@
 #labels Featured
-This article describes steps to build gdb under MSYS + MinGW environment from the latest version of gdb source(gdb git repository)
+This article describes steps to build gdb under MSYS + MinGW environment from the latest version of gdb source(gdb git repository), a Chinese version of this wiki page can be found here: [http://code.google.com/p/qp-gcc/wiki/build_gdb_msys_cn build_gdb_msys_cn].
 
 = Prerequisite  =
 ==unzip tools==
