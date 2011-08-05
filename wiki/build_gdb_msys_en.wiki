@@ -6,7 +6,9 @@ This article describes steps to build gdb under MSYS + MinGW environment from th
 I recommend using latest version of [http://www.7-zip.org/ 7-Zip] to extract files.
 
 ==GCC compiler suite==
-I use Loaden's MinGW GCC suite[http://code.google.com/p/qp-gcc/downloads/detail?name=mingw-static-4.4.5-all.7z&can=2&q= Loaden'GCC]. Note you should have iconv library in your compiler suite,since gdb need iconv library to show Unicode characters correctly. Also, PCX's MinGW GCC suite [http://pcxprj.googlecode.com/files/MinGW_gcc4.5.4.20110428_static_win32.7z MinGW_gcc4.5.4.20110428_static_win32] is also a good alternative. (PCX's GCC suite has pre-build iconv and expat libraries, so you can skip the building expat library step) 
+I use Loaden's MinGW GCC suite[http://code.google.com/p/qp-gcc/downloads/detail?name=mingw-static-4.4.5-all.7z&can=2&q= Loaden'GCC]. Note you should have iconv library in your compiler suite, since gdb need iconv library to show Unicode characters correctly. Also, please *remove* the file "make.exe" in the MinGW/bin folder, in-fact, this file will cause conflict with MSYS's "make.exe".
+
+PCX's MinGW GCC suite [http://pcxprj.googlecode.com/files/MinGW_gcc4.5.4.20110428_static_win32.7z MinGW_gcc4.5.4.20110428_static_win32] is also a good alternative. (PCX's GCC suite has pre-build iconv and expat libraries, so you can skip the building expat library step.) 
 
 ==use MSYSGit to download the latest gdb source code==
 gdb's source code is based on the cvs, but there is a readable git repository. I use a portable version of [http://msysgit.googlecode.com/files/PortableGit-1.7.4-preview20110204.7z PortableGit-1.7.4] client to download/update its source code. Note that you should firstly edit the file "\etc\gitconfig", change the text "autocrlf=true" to "autocrlf = false". (This will use linux EOL, the Windows CRLF format will cause problems)
@@ -21,7 +23,7 @@ git clone git://sourceware.org/git/gdb.git
 This is quite simple step, just go to python official site, and download [http://www.python.org/ftp/python/2.7.1/python-2.7.1.msi Python 2.7.1 Windows Installer] and install it.
 
 ==Download official MSYS shell==
-The MSYS shell package can be downloaded from [http://sourceforge.net/projects/mingw-w64/files/External%20binary%20packages%20%28Win64%20hosted%29/MSYS%20%2832-bit%29/MSYS-20110309.zip/download MSYS-20110309.zip]. This is a MinGW64 site hosted MSYS packages, unzip it and configure the file "\msys\etc\fstab", if the file does not exist, you need to create one yourself, it is just a text file without file extension, then edit it like below:
+The MSYS shell package can be downloaded from [http://sourceforge.net/projects/mingw-w64/files/External%20binary%20packages%20%28Win64%20hosted%29/MSYS%20%2832-bit%29/MSYS-20110309.zip/download MSYS-20110309.zip]. This is a MinGW64 site hosted 32bit MSYS packages, unzip it and configure the file "\msys\etc\fstab", if the file does not exist, you need to create one yourself, it is just a text file without file extension, then edit it like below:
 {{{
 D:/code/MinGWLoaden /mingw
 F:/cb/python271 /python
@@ -29,7 +31,7 @@ F:/cb/python271 /python
 This will mount the mingw and python path correctly.
 
 ==Download expat library==
-If your MinGW suite already have expat library, just skip this step and the "build expat library" step.
+If your MinGW suite already have expat library, just skip this step and the "build expat library" step too.
 Expat library is used to support gdb to debug dll files. Download 
 [http://sourceforge.net/projects/mingw/files/MinGW/expat/expat-2.0.1-1/expat-2.0.1-1-mingw32-src.tar.gz/download expat-2.0.1-1-mingw32-src.tar.gz] and extract it.
 
@@ -43,21 +45,15 @@ make install
 }}}
 Now, you have static expat under "/E/test/expat/install".
 
-==Configure python header file path and libraries==
-
-There is a trick to use python library.
-
- # Suppose you python is installed under "F:\cb\python271"，The header files were located under "F:\cb\python271\include", You need to create a new folder"F:\cb\python271\include\python2.7", and copy all the files from "F:\cb\python271\include"
- # Change the library file name, make a copy of "F:\cb\python271\libslibpython27.a" and rename to "libpython2.7.a"
-
 ==build gdb==
 Under MSYS shell, go to your gdb source, On my computer, it is "E:\test\unix_gdb\gdb", create an empty folder "E:\test\unix_gdb\build".
 Then, run the configure command below:
 {{{
 cd build
-../gdb/configure --prefix=/E/test/install --build=mingw32 --host=mingw32 --target=mingw32 \
-   CFLAGS="-s -L/python/libs -I/python/include -I/E/test/expat/install/include -static -L/E/test/expat/install/lib" \
-   --with-python \
+../gdb/configure --prefix=/E/test/install \
+  --build=mingw32 --host=mingw32 --target=mingw32 \
+   CFLAGS="-s -static -mtune=i686" \
+   --with-python=/python/python \
    --with-expat
 }}}
 
@@ -71,11 +67,34 @@ That's all, the final gdb executable files and related files will be installed i
 
 
 =Other things you need to know=
-To update your gdb source code, you need to open MSYSGit, and  run the command under gdb source folder.
+To update your gdb source code, you need to run MSYSGit, and  enter the command under gdb source folder.
 {{{ 
 git pull 
 }}}
+==Note==
+If you using PCX's MinGW_gcc4.5.4.20110428_static_win32 package, there will be a compile error, such like:
+{{{
+gcc -s -static -mtune=i686 -D__USE_MINGW_ACCESS   -I. -I../../gdb/gdb -I../../gdb/gdb/common -I../../gdb/gdb/config -DLOCALEDIR="\"/E/test/installnew/share/locale\"" -DHAVE_CONFIG_H -I../../gdb/gdb/../include/opcode -I../../gdb/gdb/../opcodes/.. -I../../gdb/gdb/../readline/.. -I../bfd -I../../gdb/gdb/../bfd -I../../gdb/gdb/../include -I../libdecnumber -I../../gdb/gdb/../libdecnumber  -I../../gdb/gdb/gnulib -Ignulib    -IF:/cb/python272/include -IF:/cb/python272/include -Wall -Wdeclaration-after-statement -Wpointer-arith -Wformat-nonliteral -Wno-pointer-sign -Wno-unused -Wunused-value -Wunused-function -Wno-switch -Wno-char-subscripts -Wno-format -Werror -c -o python.o -MT python.o -MMD -MP -MF .deps/python.Tpo -fno-strict-aliasing -DNDEBUG -fwrapv ../../gdb/gdb/python/python.c
+cc1.exe: warnings being treated as errors
+In file included from F:/cb/python272/include/Python.h:121:0,
+                 from ../../gdb/gdb/python/python-internal.h:50,
+                 from ../../gdb/gdb/python/python.c:48:
+F:/cb/python272/include/pyerrors.h:315:0: error: "snprintf" redefined
+d:\code\mingw_gcc4.5.4.20110428_static_win32\mingw\bin\../lib/gcc/i686-pc-mingw32/4.5.4/../../../../i686-pc-mingw32/include/libintl.h:375:0: note: this is the location of the previous definition
+F:/cb/python272/include/pyerrors.h:316:0: error: "vsnprintf" redefined
+d:\code\mingw_gcc4.5.4.20110428_static_win32\mingw\bin\../lib/gcc/i686-pc-mingw32/4.5.4/../../../../i686-pc-mingw32/include/libintl.h:380:0: note: this is the location of the previous definition
+}}}
 
+It is simple fix the build error by change the code in F:/cb/python272/include/pyerrors.h to below:
+{{{
+#if defined(MS_WIN32) && !defined(HAVE_SNPRINTF) && !defined(snprintf) && !defined(vsnprintf)
+# define HAVE_SNPRINTF
+# define snprintf _snprintf
+# define vsnprintf _vsnprintf
+#endif 
+}}}
+
+==GDB pretty printer support==
 For those who want to learn python pretty printer for wxWidgets or std c++ standard library, see another wiki page: http://code.google.com/p/qp-gcc/wiki/GDB
 
 ==Acknowledgement==
