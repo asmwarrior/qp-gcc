@@ -54,13 +54,16 @@ cd build
   --build=mingw32 --host=mingw32 --target=mingw32 \
    CFLAGS="-s -static -mtune=i686 -I/E/test/expat/install/include -L/E/test/expat/install/lib" \
    --with-python=/python/python \
-   --with-expat 
+   --with-expat \
+   --disable-nls 
 }}}
 Note, the options below
 {{{
 -I/E/test/expat/install/include -L/E/test/expat/install/lib
 }}}
 Is just adding expat header files and lib files search directory, if your compiler suite already integrate the expat library or you have install expat library to the standard MinGW folder, you do not need these options.
+
+Also, I suggestion using the option "--disable-nls", this will disable the multiply language support, unless you need them.
 
 Then, run the bash command below, it will take several minutes to build the gdb.
 {{{
@@ -77,7 +80,8 @@ To update your gdb source code, you need to run MSYSGit, and  enter the command 
 git pull 
 }}}
 ==Note==
-If you using PCX's MinGW_gcc4.5.4 suite, there will be a compile error, such like:
+If you does not use the option "--disable-nls", you may encounter a compiler error if you use PCX's MinGW_gcc4.5.4 suite.
+such like:
 {{{
 gcc -s -static -mtune=i686 -D__USE_MINGW_ACCESS   -I. -I../../gdb/gdb -I../../gdb/gdb/common -I../../gdb/gdb/config -DLOCALEDIR="\"/E/test/installnew/share/locale\"" -DHAVE_CONFIG_H -I../../gdb/gdb/../include/opcode -I../../gdb/gdb/../opcodes/.. -I../../gdb/gdb/../readline/.. -I../bfd -I../../gdb/gdb/../bfd -I../../gdb/gdb/../include -I../libdecnumber -I../../gdb/gdb/../libdecnumber  -I../../gdb/gdb/gnulib -Ignulib    -IF:/cb/python272/include -IF:/cb/python272/include -Wall -Wdeclaration-after-statement -Wpointer-arith -Wformat-nonliteral -Wno-pointer-sign -Wno-unused -Wunused-value -Wunused-function -Wno-switch -Wno-char-subscripts -Wno-format -Werror -c -o python.o -MT python.o -MMD -MP -MF .deps/python.Tpo -fno-strict-aliasing -DNDEBUG -fwrapv ../../gdb/gdb/python/python.c
 cc1.exe: warnings being treated as errors
