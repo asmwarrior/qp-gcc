@@ -73,6 +73,8 @@ make install
 
 That's all, the final gdb executable files and related files will be installed in "/E/test/install"
 
+Note: you can use the command "make > out.log 2>&1" instead of "make", so that all the build log or build error were re-directed to out.log file.
+
 
 =Other things you need to know=
 To update your gdb source code, you need to run MSYSGit, and  enter the command in your local gdb source folder.
