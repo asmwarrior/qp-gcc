@@ -52,7 +52,7 @@ Then, run the configure command below:
 cd build
 ../gdb/configure --prefix=/E/test/install \
   --build=mingw32 --host=mingw32 --target=mingw32 \
-   CFLAGS="-mtune=i686 -I/E/test/expat/install/include -L/E/test/expat/install/lib" \
+   CFLAGS="-O2 -mtune=i686 -I/E/test/expat/install/include -L/E/test/expat/install/lib" \
    --with-python=/python/python \
    --with-expat \
    --disable-nls 
