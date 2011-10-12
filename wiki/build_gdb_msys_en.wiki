@@ -60,6 +60,18 @@ make install
 }}}
 So that the expat library will installed to your MinGW folder.
 
+==build iconv library==
+If you have already iconv library installed, just skip this section.
+The iconv library can be download from: http://www.gnu.org/s/libiconv/
+You can either use an official release version or use the latest development version (git source code in http://savannah.gnu.org/projects/libiconv/)
+It is quite simple to build and install iconv library
+{{{
+./configure -prefix=/mingw --enable-static
+make
+make install
+}}}
+This will install the iconv library to your MinGW folder.
+
 ==build gdb==
 Under MSYS shell, go to your gdb source, On my computer, it is "E:\test\unix_gdb\gdb", create an empty folder "E:\test\unix_gdb\build".
 Then, run the configure command below:
