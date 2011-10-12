@@ -44,6 +44,21 @@ make
 make install
 }}}
 Now, you have static expat library under "/E/test/expat/install".
+==Or you can build expat library from cvs source==
+You should first check out the expat's latest source code from:
+http://expat.cvs.sourceforge.net/
+You can just press the "Download the tarball" button.
+Then you should have "autotools" installed in your MSYS, they can be downloaded from the official MinGW sites.
+Please pay attention to use a patch here [https://sourceforge.net/tracker/?func=detail&aid=2649838&group_id=10127&atid=110127 [PATCH] Fix build with libtool 2.x]
+otherwise, you will failed to generate the configure script.
+You can just run:
+{{{
+buildconf.sh
+./configure -prefix=/mingw --enable-static
+make
+make install
+}}}
+So that the expat library will installed to your MinGW folder.
 
 ==build gdb==
 Under MSYS shell, go to your gdb source, On my computer, it is "E:\test\unix_gdb\gdb", create an empty folder "E:\test\unix_gdb\build".
