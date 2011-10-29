@@ -6,12 +6,13 @@ GDB has incorporated the python script called pretty printer to show it's variab
  
 http://people.redhat.com/ebachalo/video/archer-pretty-printing-no-audio.swf
 
-or the image screen shot in Codeblocks
+or the two image screen shots shown below in Codeblocks IDE
 
 [http://i683.photobucket.com/albums/vv194/ollydbg_cb/one_variable.png]
 
 [http://i683.photobucket.com/albums/vv194/ollydbg_cb/two_variable-1.png]
 
+A detailed information about how to use gdb python pretty printer can be found in [http://sourceware.org/gdb/current/onlinedocs/gdb/Python.html#Python Python - Debugging with GDB]
 = How to use =
 
 You can download the package 
