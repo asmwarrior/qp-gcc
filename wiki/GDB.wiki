@@ -1,3 +1,4 @@
+#labels Featured
 This wiki page introduce the MinGW GDB build with python support, also include wx and stl pretty printer.
 
 = Introduction =
@@ -55,6 +56,7 @@ Now, the new version of GDB was linked to the python 2.7.1 library. So here is t
  # download the new GDB package from [http://qp-gcc.googlecode.com/files/gdb-7.2.50.20101213.7z gdb-7.2.50.20101213.7z] and extract to your "MinGW_Path/bin"
  # download the python script package [http://qp-gcc.googlecode.com/files/stdcxx_and_wx_pythonscript.7z stdcxx_and_wx_pythonscript.7z], and extract to your "MinGW_Path/bin"
  # configure Your Codeblocks, let the gdb to load these python pretty support. see [GDB#Load_the_python_script_when_Debugger_started_in_Codeblocks] section
+ # How to use Codeblocks to debug gdb under Windows. [http://forums.codeblocks.org/index.php/topic,15618.0.html use C::B to debug gdb under Windows]
 
 
 
