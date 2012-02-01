@@ -36,6 +36,12 @@ source D:\MinGW\bin\stl.gdb
 source D:\MinGW\bin\wx.gdb
 }}}
 
+*NOTE* 2012-02-01 due to some synchronization bug in the Codeblocks, you need to group all the custom gdb scropts' content to one gdb script file, So, you should put only one line here:
+{{{
+source $(TARGET_COMPILER_DIR)bin\mycustom.gdb
+}}}
+The mycustom.gdb contains all the gdb scripts' content. See the discussion on Codeblocks forum: [http://forums.codeblocks.org/index.php/topic,15777.msg106994/topicseen.html#msg106994 Re: The 07 January 2012 build (7678) DEBUGGER BRANCH version is out.]
+
 = Then, enjoying debugging =
 You can see some posts in Codeblocks forum:
 
