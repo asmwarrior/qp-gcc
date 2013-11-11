@@ -3,9 +3,7 @@ This wiki page introduce the MinGW GDB build with python support, also include w
 
 = Introduction =
 
-GDB has incorporated the python script called pretty printer to show it's variable. You can see a video
- 
-http://people.redhat.com/ebachalo/video/archer-pretty-printing-no-audio.swf
+GDB has incorporated the python script called pretty printer to show it's variable. You can see https://sourceware.org/gdb/onlinedocs/gdb/Pretty-Printing.html for details.
 
 or the two image screen shots shown below in Codeblocks IDE
 
@@ -41,6 +39,9 @@ source D:\MinGW\bin\wx.gdb
 source $(TARGET_COMPILER_DIR)bin\mycustom.gdb
 }}}
 The mycustom.gdb contains all the gdb scripts' content. See the discussion on Codeblocks forum: [http://forums.codeblocks.org/index.php/topic,15777.msg106994/topicseen.html#msg106994 Re: The 07 January 2012 build (7678) DEBUGGER BRANCH version is out.]
+
+= Note for wxWidgets 2.9.x and 3.x user =
+The pretty printer for wxWidgets 2.9.x and 3.x should be slightly modified to get the correct string buffer, see [http://forums.codeblocks.org/index.php/topic,15050.msg100720.html#msg100720 this post]. 
 
 = Then, enjoying debugging =
 You can see some posts in Codeblocks forum:
