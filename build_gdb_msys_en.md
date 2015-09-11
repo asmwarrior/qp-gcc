@@ -1,0 +1,149 @@
+This article describes steps to build gdb under MSYS + MinGW environment from the latest version of gdb source(gdb git repository), a Chinese version of this wiki page can be found here: [build\_gdb\_msys\_cn](http://code.google.com/p/qp-gcc/wiki/build_gdb_msys_cn).
+
+2013-11-11: add a new article about the steps to build GDB under MinGW-GCC 4.8.1 [Build GDB under MSYS](https://sourceforge.net/p/gdbmingw/wiki/Build%20GDB%20under%20MSYS).
+
+# Prerequisite #
+## unzip tools ##
+I recommend using latest version of [7-Zip](http://www.7-zip.org/) to extract files.
+
+## GCC compiler suite ##
+You can have many choices to choose a MinGW GCC suite, I use Loaden's MinGW GCC suite[Loaden'GCC 4.4.5](http://code.google.com/p/qp-gcc/downloads/detail?name=mingw-static-4.4.5-all.7z&can=2&q=). PCX's MinGW GCC suite [PCX's GCC 4.5.4](http://pcxprj.googlecode.com/files/MinGW_gcc4.5.4.20110428_static_win32.7z) is also a good alternative.
+
+Note: you should have iconv library in your compiler suite, since gdb need iconv library to show Unicode characters correctly. (PCX's GCC suite has both precompiled iconv and expat libraries, Loaden's suite did not contains expat library.) Also, please **remove** the file "make.exe" in the MinGW/bin folder, in-fact, this file will cause conflict with MSYS's GNU "make.exe".
+
+## use MSYSGit to download the latest gdb source code ##
+gdb's source code is based on the cvs, but there is a readable git repository. I use a portable version of [PortableGit-1.7.4](http://msysgit.googlecode.com/files/PortableGit-1.7.4-preview20110204.7z) client to download/update its source code. Note that you should firstly edit the file "\etc\gitconfig", change the text "autocrlf=true" to "autocrlf = false". (This will force to use linux EOL, the Windows CRLF format will cause problems.)
+
+Next, run the command git-bash.bat, then you can go to download the gdb source code using this command:
+
+```
+git clone git://sourceware.org/git/gdb.git
+```
+
+## install python2.7 ##
+This is quite simple step, just go to python official site, and download [Python 2.7.2 Windows Installer](http://www.python.org/ftp/python/2.7.2/python-2.7.2.msi) and install it.
+
+## Download official MSYS shell ##
+The MSYS shell package can be downloaded from [MSYS-20110309.zip](http://sourceforge.net/projects/mingw-w64/files/External%20binary%20packages%20%28Win64%20hosted%29/MSYS%20%2832-bit%29/MSYS-20110309.zip/download). This is a MinGW64 site hosted 32bit MSYS package, unzip it and configure the file "\msys\etc\fstab", if the file does not exist, you need to create one yourself, it is just a text file without file extension, then edit it like below:
+```
+D:/code/MinGW /mingw
+F:/cb/python272 /python
+```
+I presume that my MinGW was located under "D:/code/MinGW", and the Python was installed in "F:/cb/python272". This will mount the mingw and python path correctly.
+
+## Download expat library ##
+Note: if your MinGW suite already have expat library, just skip this step and the "build expat library" step too.
+Expat library is used to support gdb to debug dll files. Download
+[expat-2.0.1-1-mingw32-src.tar.gz](http://sourceforge.net/projects/mingw/files/MinGW/expat/expat-2.0.1-1/expat-2.0.1-1-mingw32-src.tar.gz/download) and extract it.
+
+# Build #
+## build expat library ##
+Run the MSYS, change directory to where your extract expat, and run the command
+```
+./configure -prefix=/E/test/expat/install --enable-static
+make
+make install
+```
+Now, you have static expat library under "/E/test/expat/install".
+## Or you can build expat library from cvs source ##
+You should first check out the expat's latest source code from:
+http://expat.cvs.sourceforge.net/
+You can just press the "Download the tarball" button.
+Then you should have "autotools" installed in your MSYS, they can be downloaded from the official MinGW sites.
+Please pay attention to use a patch here [[PATCH](https://sourceforge.net/tracker/?func=detail&aid=2649838&group_id=10127&atid=110127) Fix build with libtool 2.x]
+otherwise, you will failed to generate the configure script.
+You can just run:
+```
+buildconf.sh
+./configure -prefix=/mingw --enable-static
+make
+make install
+```
+So that the expat library will installed to your MinGW folder.
+
+## build iconv library ##
+If you have already iconv library installed, just skip this section.
+The iconv library can be download from: http://www.gnu.org/s/libiconv/
+You can either use an official release version or use the latest development version (git source code in http://savannah.gnu.org/projects/libiconv/)
+It is quite simple to build and install iconv library
+```
+./configure -prefix=/mingw --enable-static
+make
+make install
+```
+This will install the iconv library to your MinGW folder.
+
+## build gdb ##
+Under MSYS shell, go to your gdb source, On my computer, it is "E:\test\unix\_gdb\gdb", create an empty folder "E:\test\unix\_gdb\build".
+Then, run the configure command below:
+```
+cd build
+../gdb/configure --prefix=/E/test/install \
+  --build=mingw32 --host=mingw32 --target=mingw32 \
+   CFLAGS="-O2 -mtune=i686 -I/E/test/expat/install/include -L/E/test/expat/install/lib" \
+   --with-python=/python/python \
+   --with-expat \
+   --disable-nls 
+```
+Note, the options below
+```
+-I/E/test/expat/install/include -L/E/test/expat/install/lib
+```
+Is just adding expat header files and lib files search directory, if your compiler suite already integrate the expat library or you have install expat library to the standard MinGW folder, you do not need these options.
+
+Also, I suggestion using the option "--disable-nls", this will disable the multiply language support, unless you need them.
+
+Then, run the bash command below, it will take several minutes to build the gdb.
+```
+make
+make install
+```
+
+That's all, the final gdb executable files and related files will be installed in "/E/test/install"
+
+Note: you can use the command "make > out.log 2>&1" instead of "make", so that all the build log or build error were re-directed to out.log file.
+
+
+# Other things you need to know #
+To update your gdb source code, you need to run MSYSGit, and  enter the command in your local gdb source folder.
+```
+git pull 
+```
+## Note ##
+If you does not use the option "--disable-nls", you may encounter a compiler error if you use PCX's MinGW\_gcc4.5.4 suite.
+such like:
+```
+gcc -s -static -mtune=i686 -D__USE_MINGW_ACCESS   -I. -I../../gdb/gdb -I../../gdb/gdb/common -I../../gdb/gdb/config -DLOCALEDIR="\"/E/test/installnew/share/locale\"" -DHAVE_CONFIG_H -I../../gdb/gdb/../include/opcode -I../../gdb/gdb/../opcodes/.. -I../../gdb/gdb/../readline/.. -I../bfd -I../../gdb/gdb/../bfd -I../../gdb/gdb/../include -I../libdecnumber -I../../gdb/gdb/../libdecnumber  -I../../gdb/gdb/gnulib -Ignulib    -IF:/cb/python272/include -IF:/cb/python272/include -Wall -Wdeclaration-after-statement -Wpointer-arith -Wformat-nonliteral -Wno-pointer-sign -Wno-unused -Wunused-value -Wunused-function -Wno-switch -Wno-char-subscripts -Wno-format -Werror -c -o python.o -MT python.o -MMD -MP -MF .deps/python.Tpo -fno-strict-aliasing -DNDEBUG -fwrapv ../../gdb/gdb/python/python.c
+cc1.exe: warnings being treated as errors
+In file included from F:/cb/python272/include/Python.h:121:0,
+                 from ../../gdb/gdb/python/python-internal.h:50,
+                 from ../../gdb/gdb/python/python.c:48:
+F:/cb/python272/include/pyerrors.h:315:0: error: "snprintf" redefined
+d:\code\mingw_gcc4.5.4.20110428_static_win32\mingw\bin\../lib/gcc/i686-pc-mingw32/4.5.4/../../../../i686-pc-mingw32/include/libintl.h:375:0: note: this is the location of the previous definition
+F:/cb/python272/include/pyerrors.h:316:0: error: "vsnprintf" redefined
+d:\code\mingw_gcc4.5.4.20110428_static_win32\mingw\bin\../lib/gcc/i686-pc-mingw32/4.5.4/../../../../i686-pc-mingw32/include/libintl.h:380:0: note: this is the location of the previous definition
+```
+
+You can simply fix the build error by change the code in F:/cb/python272/include/pyerrors.h to below:
+```
+#if defined(MS_WIN32) && !defined(HAVE_SNPRINTF) && !defined(snprintf) && !defined(vsnprintf)
+# define HAVE_SNPRINTF
+# define snprintf _snprintf
+# define vsnprintf _vsnprintf
+#endif 
+```
+
+## GDB pretty printer support ##
+For those who want to learn python pretty printer for wxWidgets or std c++ standard library, see another wiki page:
+[GDB Pretty printer introduction and setup](http://code.google.com/p/qp-gcc/wiki/GDB)
+
+## Acknowledgement ##
+Many thanks to Loaden to supply a working MinGW GCC and give us a cross gdb instruction, see: [CrossbuildGDB](http://code.google.com/p/qp-gcc/wiki/CrossbuildGDB)
+Many thanks to Pcx with who I solved many problems when building gdb under MSYS.
+
+## Reference ##
+  1. http://dev.zhourenjian.com/blog/2009/03/11/compiling-gdb-debugger-in-windows.html
+  1. http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GDB/GDB-7.3/gdb-7.3-1-mingw32.RELEASE_NOTES.txt
+
+## About Me ##
+I'am Asmwarrior. You can find me [ollydbg](http://forums.codeblocks.org/index.php?action=profile;u=9403) in Codeblocks' forum.

@@ -1,0 +1,126 @@
+# Introduction #
+
+Hello, I'm Leo, a.k.a a14331990. This page contains detailed information about building
+a working MinGW GCC 4.5.0 for wxWidgets.
+
+# Details #
+
+# Build gmp, mpfr and other denpedencies #
+
+  * gmp
+```
+  CFLAGS=-O2 CPPFLAGS=-fexceptions ./configure \
+  --prefix=/mingw \
+  --disable-static \
+  --enable-shared \
+  --enable-cxx
+```
+  * mpfr
+```
+  CFLAGS=-O2 ./configure \
+  --prefix=/mingw \
+  --disable-static \
+  --enable-shared
+```
+  * mpc
+```
+  CFLAGS=-O2 ./configure \
+  --prefix=/mingw \
+  --disable-static \
+  --enable-shared
+```
+  * ppl
+```
+  CFLAGS=-O2 LDFLAGS="-no-undefined -Wl,--exclude-libs,libgcc_eh.a" ./configure \
+  --prefix=/mingw \
+  --disable-watchdog \
+  --disable-static \
+  --enable-shared
+```
+  * cloog
+```
+  CFLAGS=-O2 LDFLAGS="-no-undefined" ./configure \
+  --prefix=/mingw \
+  --disable-static \
+  --enable-shared \
+  --with-ppl
+```
+  * pthreads
+```
+  make clean GC-static
+  cp libpthreadGC2.a /mingw/lib/libpthreadGC2-static.a
+  make clean GC-inlined
+  cp libpthreadGC2.a /mingw/lib/libpthread.a
+  cp pthreadGC2.dll /mingw/bin/pthreadGC2.dll
+  make clean GCE-inlined
+  cp libpthreadGCE2.a /mingw/lib/libpthreadGCE2.a
+  cp pthreadGCE2.dll /mingw/bin/pthreadGCE2.dll
+  cp pthread.h /mingw/include/pthread.h
+  cp semaphore.h /mingw/include/semaphore.h
+  cp sched.h /mingw/include/sched.h
+```
+> some **notes and warnings**:
+  * **backup** your working mingw environment first,
+  * before building, copy mingw32 dir to i686-pc-mingw32 in the following locations:
+> (**or, add --build=mingw32 in every build configs of above dependencies, you can skip this step**)
+```
+    cd /mingw
+    cp -r mingw32 i686-pc-mingw32
+    cd /mingw/lib/gcc
+    cp -r mingw32 i686-pc-mingw32
+    cd /mingw/libexec/gcc
+    cp -r mingw32 i686-pc-mingw32
+```
+  * some libs may not built with gcc 4.5, you can build it with other version of gcc.
+
+# Patch Binutils #
+> download the tarball leo-current-patches.7z, decompress it using **latest beta release** 7-zip, pick leo-urrent-patches/leo-patches/auto-  import.diff and patch it.
+> notes
+  * this comes from this post by Dave Korn and is slightly modified by me
+> http://sourceware.org/ml/binutils/2009-02/msg00341.html
+  * it enables auto-import by default in ld, this is default behavior in Cygwin, but not yet in MinGW.
+
+# Patch GCC #
+> pick and patch all other patches in the dir leo-current-patches and its sub-dirs.
+> notes
+  * leo-current-patches/leo-patches/fix-bloat.diff is just a removal of nathan's code
+at 2009-05-22.
+see disscussions here
+http://forums.codeblocks.org/index.php/topic,12183.30.html
+and here
+http://gcc.gnu.org/bugzilla/show_bug.cgi?id=43601
+for the reason of removal, say **SORRY** to nathan.
+  * other patches are borrowed from official MinGW build, TDM-GCC and Mr.loaden, Thanks them all.
+
+# Configure GCC #
+```
+  ../configure \
+  --prefix=/mingw \
+  --enable-languages=c,c++,fortran,objc,obj-c++ \
+  --enable-shared \
+  --disable-libgcj \
+  --enable-libgomp \
+  --disable-win32-registry \
+  --enable-libstdcxx-debug \
+  --enable-version-specific-runtime-libs \
+  --disable-werror \
+  --enable-threads \
+  --disable-symvers \
+  --enable-cxx-flags='-fno-function-sections -fno-data-sections' \
+  --enable-fully-dynamic-string \
+  --disable-nls \
+  --with-system-zlib \
+  --disable-bootstrap \
+  --disable-lto
+```
+(**if you don't copy mingw32 dir to i686-pc-mingw32 in the above locations, please add
+--build=mingw32 in the gcc config**)
+# Build and Install #
+> as normal.
+
+# Expected User Experience #
+> This build of MinGW GCC 4.5 should compiles wxWidgets smoothly, generates small object files, 100k per one, and 61M in total, and can produce a working wxWidgets monolithic dll of size 9M.
+
+# Troubleshootings and Contacts #
+  * a14331990#hotmail.com
+  * QQ:591799783

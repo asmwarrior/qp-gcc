@@ -1,0 +1,103 @@
+本文介绍在 windows系统下，如何用 MSYS环境+MinGW编译器，编译最新版本的 gdb。
+
+注意：本教程的英文版本见：[build\_gdb\_msys\_en](http://code.google.com/p/qp-gcc/wiki/build_gdb_msys_en)，如果你不介意阅读英文，建议你先阅读英文版本，因为英文版本具有最新的更新。
+
+# 准备条件 #
+## 解压缩工具 ##
+不要说你没有这个，我推荐用 7-zip，呵呵，可以从以下链接处下载：
+[7-Zip](http://www.7-zip.org/),建议下载最新版本（或者最新的beta版本），因为下文中介绍的7z包有可能是用最新的7z压缩的，所以你下了老版本可能解压不了。
+
+## GCC编译器 ##
+我使用的Loaden的MinGW GCC编译器 [Loaden的GCC](http://code.google.com/p/qp-gcc/downloads/detail?name=mingw-static-4.4.5-all.7z&can=2&q=),因为里面已经包含了iconv包，如果没有这个库的话，可能导致编译出来的gdb在显示unicode字符的时候会变成乱码。
+另外，Pcx的MinGW GCC编译器也是一个不错的选择[MinGW\_win32\_gcc4.5.2static\_snapshots.7z](http://code.google.com/p/pcxprj/downloads/detail?name=MinGW_win32_gcc4.5.2static_snapshots.7z&can=2&q=),只不过这个编译器的包里面还没有iconv库，有需要的可以和Pcx本人联系索取。（或者向我索取也可以，Pcx也给了我一份）
+
+## 使用MSYSgit下载最新gdb代码 ##
+gdb的源代码是基于cvs的，当然也有一个可读的git。
+我使用的是一个绿色版本的Windows下的git客户端，该客户端的下载链接是 [PortableGit-1.7.3.1-preview20101002.7z](http://msysgit.googlecode.com/files/PortableGit-1.7.3.1-preview20101002.7z) 解压后。重要的一个步骤，先修改里面的一个配置文件，位于：“\etc\gitconfig” 这个文件里面，把 autocrlf的默认值true，改成false，即“autocrlf = false”。否则下载下来的gdb源代码无法编译通过，会出现莫名其妙的编译错误，**这也是我和Pcx折腾了好几天才发现的重要经验**。接下来，运行 git-bash.bat 文件启动该程序，然后就可以去下载 git 版本管理的 gdb了，具体的地址可以看gdb的页面：[Current GDB](http://www.gnu.org/software/gdb/current/) ,里面使用的是这个命令：
+```
+git clone git://sourceware.org/git/gdb.git
+```
+
+## python2.7的安装 ##
+这个步骤比较简单，直接去python网站下载安装了就可以了，目前我使用的是python2.7.1，你去下载安装就OK了。
+
+## MSYS shell ##
+前面的MSYSgit其实也带有一个MSYS环境，但是我感觉这个里面的工具不够全，只是用来git使用没有问题，如果需要编译gdb，我就去下载了一个最新的MSYS 32位的包，下载的地址是：
+[MSYS-20101010.zip](http://sourceforge.net/projects/mingw-w64/files/External%20binary%20packages%20%28Win64%20hosted%29/MSYS%20%2832-bit%29/MSYS-20101010.zip/download)，同样是解压后，需要修改一下配置文件 “\msys\etc\fstab”，如果没有这个文件，大家可以自己建一个空的此文件（这是一个没有扩展名的文本文件），里面主要是进行路径的映射，我的是这样的：
+```
+D:/code/MinGWLoaden /mingw
+F:/cb/python271 /python
+```
+我的MinGW编译器，是装在 D:/code/MinGWLoaden ，所以在MSYS里面，我把它映射为 /mingw
+python的路径也是类似的映射。
+注意，在Windows系统的PATH环境变量里面，你最好把所有的别的mingw的路径全部删除掉，否则容易引起不同版本的MinGW的混淆。**还有一个特别要注意**，D:/code/MinGWLoaden/bin 目录下面，有一个make.exe 文件，你一定要删除掉，因为我们不需要这个MinGW版本的make.exe， 我们需要的是MSYS自己带的make.exe（位于你的msys的bin目录下）。如果不删除MinGW下的make.exe文件，你将无法编译gdb。
+
+## expat库的源代码 ##
+如果没有expat的库，你编译出来的gdb也可以正常工作，但是却无法调试dll文件，所以还是有必要去下载expat的，下载的地方有好几个，例如：
+[expat-2.0.1-1-mingw32-src.tar.gz](http://sourceforge.net/projects/mingw/files/MinGW/expat/expat-2.0.1-1/expat-2.0.1-1-mingw32-src.tar.gz/download) 就可以了，下载之后解压缩。
+
+# 编译 #
+## 编译expat库 ##
+首先编译expat库，这个比较简单，先打开MSYS界面（注意，不要用msysgit的那个，要用[WikiSyntax#MSYS\_shell](WikiSyntax#MSYS_shell.md)），cb命令转移当前的目录到expat所在的目录，输入命令：
+```
+./configure -prefix=/E/test/expat/install --enable-static
+```
+上面的这句命令的意思，就是生成静态版本的expat库。然后在命令行里面依次输入：
+```
+make
+make install
+```
+一切正常的话，编译好的expat库，就被安装到 “/E/test/expat/install”了，大家也可以根据自己的需要放置expat库的路径。
+
+## 设置python的头文件和路径 ##
+由于gdb源代码里面检测python的机制默认是针对linux下用的，所以在windows会检测失败，以至于在编译的时候gdb会提示死活都找不到python。解决方法如下：
+下面是我自己琢磨出来的修改步骤，能保证gdb在编译过程的时候正确的找到python，并且编译成功！
+  1. 假设我的python的安装目录是F:\cb\python271，头文件所在的目录是：F:\cb\python271\include，于是，你在这个目录里面，新建一个名字叫做 python2.7 的目录，也就是说，创建一个 “F:\cb\python271\include\python2.7”，然后你把原来“F:\cb\python271\include”里面的内容，都复制一份，放到这个python2.7的目录里面。 （因为gdb默认会去检索这个目录的头文件，也许linux下的目录结构是这样的吧。。）
+  1. 修改库文件，在路径F:\cb\python271\libs\下面 ，复制一份libpython27.a ,并且改名字为：libpython2.7.a （gdb会查找libpython2.7.a这样的库名字，而不是前者）
+
+## 编译gdb ##
+在MSYS命令行下面，进入你下载的git版本管理的gdb源代码目录。例如，在我的电脑上面，我的git的gdb源代码位于 "E:\test\unix\_gdb\gdb" ，那么我就创建一个名字叫做 build 的文件夹，位于：
+E:\test\unix\_gdb\build
+
+这样，你就可以在MSYS里面，进入这个build目录。然后运行configure命令：
+```
+../gdb/configure --prefix=/E/test/install --build=mingw32 --host=mingw32 --target=mingw32 \
+   CFLAGS="-s -L/python/libs -I/python/include -I/E/test/expat/install/include -static -L/E/test/expat/install/lib" \
+   --with-python \
+   --with-expat
+```
+
+完了之后，就可以依次运行命令：
+```
+make
+```
+和
+```
+make install
+```
+
+最后，编译的过程大概需要20多分钟（根据你的电脑速度好坏）。
+
+完成之后的gdb应该就会出现在：上面定义的 "--prefix=/E/test/install" 目录里面。
+
+这样，你就成功了！！！
+
+# 其他 #
+如果要更新git管理的gdb源代码，你需要在你的MSYSGIT 的界面里面，转移到gdb的目录，然后运行的命令是
+` git pull `
+
+关于如何使用wxwidget提供的python pretty printer的gdb调试脚本，或者gcc stl c++标准库的调试脚本，请查看这个wiki网页
+http://code.google.com/p/qp-gcc/wiki/GDB
+
+## 感谢 ##
+非常感谢Loaden等人提供的gdb的交叉编译方法，以及Loaden的编译器。
+非常感谢Pcx，我们一起讨论和研究了gdb的编译问题。
+
+## 参考链接 ##
+  1. http://dev.zhourenjian.com/blog/2009/03/11/compiling-gdb-debugger-in-windows.html
+  1. http://sourceforge.net/projects/mingw/files/MinGW/BaseSystem/GDB/GDB-7.2/gdb-7.2-1-mingw32.RELEASE_NOTES.txt/download
+
+## 本文作者自我介绍 ##
+Asmwarrior
+
+另外，“ollydbg”是我在Codeblocks英文论坛的ID，我对开源的Codeblocks的IDE很感兴趣。

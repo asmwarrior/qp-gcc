@@ -1,0 +1,73 @@
+Cross build gdb 7.2 for Windows under ArchLinux (static link to expat library, with python pretty printer support).
+
+# Prepare #
+Copy expat and python libraries to
+```
+/usr/i486-mingw32
+```
+Note: python's header files should be put in this folder:
+```
+/usr/i486-mingw32/include/python2.6
+```
+Also, you should rename the library name from "libpython26.a" to "libpython2.6.a"
+
+Then run the command
+```
+sudo chmod -R 777 /usr/i486-mingw32
+cp -r ./* /usr/i486-mingw32
+```
+Note: Cross compiler should be consisit with target setting, change the prefix "i486-" to "i686-"
+```
+cd /usr/bin
+su
+for files in i486-mingw32-*; do ln -s $files i686-${files:5}; done
+exit
+```
+# build iconv library #
+```
+../../src/libiconv-1.13.1/configure \
+    --prefix=/iconv \
+    --host=i686-mingw32 \
+    --target=i686-mingw32 \
+    --build=i686-pc-linux-gnu \
+    --disable-shared \
+    --enable-static
+make -j2 && i686-mingw32-strip src/iconv.exe && make install DESTDIR=~
+```
+# build expat library #
+```
+../../src/expat-2.0.1/configure \
+    --prefix=/expat \
+    --host=i686-mingw32 \
+    --target=i686-mingw32 \
+    --build=i686-pc-linux-gnu \
+    --disable-shared \
+    --enable-static
+make -j2 && make install DESTDIR=~
+```
+# configure #
+```
+../../src/gdb-7.2/configure \
+    --prefix=/gdb \
+    --host=i686-mingw32 \
+    --target=i686-mingw32 \
+    --build=i686-pc-linux-gnu \
+    --with-expat \
+    --with-python \
+    --with-iconv \
+    --without-included-gettext \
+    --disable-shared \
+    --enable-static
+```
+# build #
+```
+make -j2
+```
+
+# install #
+```
+rm -f gdb/gdb.exe gdb/gdbserver/gdbserver.exe
+make LDFLAGS="-Wl,--stack=0x2000000"
+i686-mingw32-strip --strip-debug --strip-unneeded gdb/gdb.exe gdb/gdbserver/gdbserver.exe
+make install DESTDIR=~
+```
